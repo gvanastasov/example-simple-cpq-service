@@ -4,12 +4,16 @@ const productRoutes = require('./routes/productRoutes');
 const quoteRoutes = require('./routes/quoteRoutes');
 const { setupDatabase } = require('./config/db');
 
-const app = express();
-app.use(bodyParser.json());
+const start = () => {
+    const app = express();
+    app.use(bodyParser.json());
 
-setupDatabase();
+    setupDatabase();
 
-app.use('/api/products', productRoutes);
-app.use('/api/quotes', quoteRoutes);
+    app.use('/api/products', productRoutes);
+    app.use('/api/quotes', quoteRoutes);
 
-app.listen(3000, () => console.log('Server running on port 3000...'));
+    app.listen(3000, () => console.log('Server running on port 3000...'));
+}
+
+module.exports = { start };
