@@ -6,6 +6,7 @@ function setupDatabase() {
     CREATE TABLE IF NOT EXISTS products (
       id INTEGER PRIMARY KEY,
       name TEXT,
+      category TEXT,
       basePrice REAL,
       options TEXT
     );
@@ -20,9 +21,9 @@ function setupDatabase() {
   `);
 
   // Seed data
-  const insertProduct = db.prepare('INSERT INTO products (name, basePrice, options) VALUES (?, ?, ?)');
-  insertProduct.run('Laptop', 1000, JSON.stringify({ color: ['Black', 'Silver'], ram: ['8GB', '16GB'], storage: ['256GB', '512GB'] }));
-  insertProduct.run('Phone', 500, JSON.stringify({ color: ['Black', 'White'], storage: ['64GB', '128GB'] }));
+  const insertProduct = db.prepare('INSERT INTO products (name, category, basePrice, options) VALUES (?, ?, ?)');
+  insertProduct.run('Laptop', 'Hardware', 1000, JSON.stringify({ color: ['Black', 'Silver'], ram: ['8GB', '16GB'], storage: ['256GB', '512GB'] }));
+  insertProduct.run('Phone', 'Hardware', 500, JSON.stringify({ color: ['Black', 'White'], storage: ['64GB', '128GB'] }));
 }
 
 module.exports = { db, setupDatabase };
