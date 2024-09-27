@@ -1,14 +1,10 @@
 const ProductRule = require('../models/product-rule');
 
-const ProductExistsRule = require('./configuration/rule-product-exists');
-const VolumeDiscountRule = require('./pricing/rule-volume-discount');
-const MaxQuantityRule = require('./validation/rule-max-quantity');
+const ConfigurationRules    = require('./configuration');
+const PricingRules          = require('./pricing');
+const ValidationRules       = require('./validation');
 
-const ruleDefinitions = {
-    ProductExistsRule,
-    VolumeDiscountRule,
-    MaxQuantityRule,
-};
+const ruleDefinitions = { ...ConfigurationRules, ...PricingRules, ...ValidationRules };
 
 /**
  * @description Responsible for loading the appropriate rules for a product. The 
