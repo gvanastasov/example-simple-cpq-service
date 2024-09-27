@@ -3,13 +3,22 @@
  * based on the quantity.
  */
 class VolumeDiscountRule {
-  // todo: make quantity and discount configurable
+  constructor({ quantity, discount }) {
+    this.quantity = quantity;
+    this.discount = discount;
+  }
+
   apply(context) {
+    if (this.quantity === undefined || this.discount === undefined) {
+      console.error('VolumeDiscountRule requires quantity and discount parameters.');
+      return;
+    }
+
     const quantity = context.request.product.quantity || 1;
 
-    if (quantity >= 10) {
+    if (quantity >= this.quantity) {
       const basePrice = context.quote.price.base;
-      const discount = basePrice * 0.10;
+      const discount = basePrice * this.discount;
       
       context.quote.price.discounts.push({ name: 'Volume Discount', amount: discount });
       context.quote.price.offering -= discount;

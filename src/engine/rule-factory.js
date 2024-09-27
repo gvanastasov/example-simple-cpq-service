@@ -22,7 +22,8 @@ class RuleFactory {
         return rules.reduce((arr, rule) => {
             const definition = ruleDefinitions[rule.class];
             if (definition) {
-                arr.push(new definition());
+                const args = JSON.parse(rule.parameters);
+                arr.push(new definition(args));
             }
             else {
                 console.error(`Rule definition not found for ${rule.class}`);
