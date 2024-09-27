@@ -1,16 +1,30 @@
 const RuleFactory = require('../rule-factory');
 
 class PricingService {
-  static calculatePrice(product, selectedOptions, userContext) {
-    let basePrice = product.basePrice;
+  static calculatePrice(context) {
+    if (context.status.priced || context.status.error) {
+      return;
+    }
 
-    const pricingRules = RuleFactory.loadRules('pricing', product, userContext);
+    const pricingRules = RuleFactory.loadRules('pricing', context);
 
-    pricingRules.forEach(rule => {
-      basePrice = rule.apply(basePrice, product, selectedOptions);
-    });
+    const unitBasePrice = context.quote.product.basePrice;
+    const quantity = context.request.product.quantity;
 
-    return basePrice;
+    context.quote.price.unit = unitBasePrice;
+    context.quote.price.base = unitBasePrice * quantity;
+    context.quote.price.offering = unitBasePrice * quantity;
+    
+    for (const rule of pricingRules) {
+      rule.apply(context);
+      if (context.status.error) {
+        break;
+      }
+    }
+    
+    if (!context.status.error) {
+      context.status.priced = true;
+    }
   }
 }
 

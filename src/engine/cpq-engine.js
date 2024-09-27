@@ -5,7 +5,7 @@ const ValidationService     = require('./services/validation-service');
 class CPQEngine {
     static run(context) {
         // Step 1: Configure - apply configuration rules
-        if (!ConfigurationService.applyRules(context)) { return; }
+        ConfigurationService.applyRules(context);
 
         // Step 2: Price - calculate based on pricing rules
         PricingService.calculatePrice(context);

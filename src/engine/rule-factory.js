@@ -1,3 +1,13 @@
+const ProductRule = require('../models/product-rule');
+
+const ProductExistsRule = require('./configuration/rule-product-exists');
+const VolumeDiscountRule = require('./pricing/rule-volume-discount');
+
+const ruleDefinitions = {
+    ProductExistsRule,
+    VolumeDiscountRule,
+};
+
 /**
  * @description Responsible for loading the appropriate rules for a product. The 
  * rules could be stored in the database, in configuration files, or directly in 
@@ -5,15 +15,15 @@
  */
 class RuleFactory {
     static loadRules(type, context) {
-        // Logic to load rules based on type (pricing, configuration, validation)
-        // For example, fetch from DB or from configuration files
-        // Example: Load relevant rules for the product
-        const rules = [];
+        var rules = ProductRule.getBy({ id: context.request.product.id, type });
 
-        
-
-        // Return the set of rules that need to be applied
-        return rules;
+        return rules.reduce((arr, rule) => {
+            const definition = ruleDefinitions[rule.class];
+            if (definition) {
+                arr.push(new definition());
+            }
+            return arr;
+        }, []);
     }
 }
 

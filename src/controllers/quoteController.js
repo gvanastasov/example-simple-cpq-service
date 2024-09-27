@@ -1,8 +1,9 @@
 const CPQEngine = require('../engine/cpq-engine');
 
 exports.generateQuote = (req, res) => {
-  const { productId } = req.body;
+  const { productId, quantity } = req.body;
 
+    // todo: move definition of context to a separate file
     var context = {
       request: {
         user: {
@@ -11,22 +12,38 @@ exports.generateQuote = (req, res) => {
         },
         product: {
           id: productId,
+          quantity,
         }
       },
-      response: {
+      quote: {
         product: null,
-        price: null,
+        price: {
+          unit: undefined,
+          base: undefined,
+          discounts: [],
+          offering: undefined,
+        }
       },
-      error: {
-        message: null,
+      status: {
+        configured: false,
+        priced: false,
+        validated: false,
+        error: false,
+      },
+      bind: function(name, data) {
+        this.quote[name] = data;
+      },
+      error: function(message) {
+        this.error.message = { error: message };
+        this.status.error = true;
       }
     };
 
     CPQEngine.run(context);
 
-    if (context.error.message) {
-      res.status(400).json(context.error);
+    if (context.status.error) {
+      res.status(400).json(context.error.message);
     } else {
-      res.status(200).json(context.response);
+      res.status(200).json(context.quote);
     }
 };
