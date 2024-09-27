@@ -2,10 +2,12 @@ const ProductRule = require('../models/product-rule');
 
 const ProductExistsRule = require('./configuration/rule-product-exists');
 const VolumeDiscountRule = require('./pricing/rule-volume-discount');
+const MaxQuantityRule = require('./validation/rule-max-quantity');
 
 const ruleDefinitions = {
     ProductExistsRule,
     VolumeDiscountRule,
+    MaxQuantityRule,
 };
 
 /**
@@ -21,6 +23,9 @@ class RuleFactory {
             const definition = ruleDefinitions[rule.class];
             if (definition) {
                 arr.push(new definition());
+            }
+            else {
+                console.error(`Rule definition not found for ${rule.class}`);
             }
             return arr;
         }, []);

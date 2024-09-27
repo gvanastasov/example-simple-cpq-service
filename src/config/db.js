@@ -45,12 +45,16 @@ function setupDatabase() {
   const insertRule = db.prepare('INSERT INTO rules (type, name, description, class) VALUES (?, ?, ?, ?)');
   insertRule.run('configuration', 'Product Exists', 'Ensure the product exists', 'ProductExistsRule');
   insertRule.run('pricing', 'Volume Discount', 'Apply a discount based on the quantity', 'VolumeDiscountRule');
+  insertRule.run('validation', 'MaxQuantityRule', 'Ensure the quantity is less than specified', 'MaxQuantityRule');
 
   const insertProductRule = db.prepare('INSERT INTO product_rules (productId, ruleId, priority) VALUES (?, ?, ?)');
   insertProductRule.run(1, 1, 10);
   insertProductRule.run(1, 2, 100);
+  insertProductRule.run(1, 3, 1000);
+  
   insertProductRule.run(2, 1, 10);
   insertProductRule.run(2, 2, 100);
+  insertProductRule.run(2, 3, 1000);
 }
 
 module.exports = { db, setupDatabase };
