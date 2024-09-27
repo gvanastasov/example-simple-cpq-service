@@ -1,5 +1,8 @@
-class MaxQuantityRule {
+const Rule = require('../rule');
+
+class MaxQuantityRule extends Rule {
     constructor({ maxQuantity }) {
+        super();
         this.maxQuantity = maxQuantity;
     }
 

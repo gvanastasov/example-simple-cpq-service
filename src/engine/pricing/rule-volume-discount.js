@@ -1,9 +1,12 @@
+const Rule = require('../rule');
+
 /**
  * @description sample volume discount rule that adjusts the price 
  * based on the quantity.
  */
-class VolumeDiscountRule {
+class VolumeDiscountRule extends Rule {
   constructor({ quantity, discount }) {
+    super();
     this.quantity = quantity;
     this.discount = discount;
   }

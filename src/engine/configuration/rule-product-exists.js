@@ -1,7 +1,9 @@
 const Product = require('../../models/product');
+const Rule = require('../rule');
 
-class ProductExistsRule {
+class ProductExistsRule extends Rule {
     constructor({ required }) {
+        super();
         this.required = required;
     }
 
