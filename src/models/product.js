@@ -7,8 +7,19 @@ class Product {
   }
 
   static getById(id) {
-    const stmt = db.prepare('SELECT * FROM products WHERE id = ?');
-    return stmt.get(id);
+    const productStmt = db.prepare('SELECT * FROM products WHERE id = ?');
+    const product = productStmt.get(id);
+
+    if (!product) {
+      return null;
+    }
+
+    const optionsStmt = db.prepare('SELECT * FROM options WHERE productId = ?');
+    const options = optionsStmt.all(id);
+
+    product.options = options;
+
+    return product;
   }
 }
 

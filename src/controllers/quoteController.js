@@ -1,7 +1,7 @@
 const CPQEngine = require('../engine/cpq-engine');
 
 exports.generateQuote = (req, res) => {
-  const { productId, quantity } = req.body;
+  const { productId, options, quantity } = req.body;
 
     // todo: move definition of context to a separate file
     var context = {
@@ -13,6 +13,7 @@ exports.generateQuote = (req, res) => {
         product: {
           id: productId,
           quantity,
+          options,
         }
       },
       quote: {
