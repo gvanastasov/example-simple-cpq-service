@@ -68,20 +68,23 @@ function setupDatabase() {
   insertRule.run('configuration', 'Ensure Options', 'Ensure options are configured', 'ProductOptionsEnsureRule');
   insertRule.run('pricing', 'Volume Discount', 'Apply a discount based on the quantity', 'VolumeDiscountRule');
   insertRule.run('pricing', 'Include Options', 'Include the price of the options', 'ProductOptionsIncludeRule');
+  insertRule.run('pricing', 'Volume Purchase', 'Allow purchase of multiple products', 'VolumePurchaseRule');
   insertRule.run('validation', 'MaxQuantityRule', 'Ensure the quantity is less than specified', 'MaxQuantityRule');
   
   const insertProductRule = db.prepare('INSERT INTO product_rules (productId, ruleId, priority, parameters) VALUES (?, ?, ?, ?)');
   insertProductRule.run(1, 1, 10, JSON.stringify({ required: true }));
   insertProductRule.run(1, 2, 20, JSON.stringify({}));
-  insertProductRule.run(1, 3, 110, JSON.stringify({ quantity: 10, discount: 0.1 }));
   insertProductRule.run(1, 4, 100, JSON.stringify({}));
-  insertProductRule.run(1, 5, 1000, JSON.stringify({ maxQuantity: 100 }));
+  insertProductRule.run(1, 5, 105, JSON.stringify({ enabled: true }));
+  insertProductRule.run(1, 3, 110, JSON.stringify({ quantity: 10, discount: 0.1 }));
+  insertProductRule.run(1, 6, 1000, JSON.stringify({ maxQuantity: 100 }));
   
   insertProductRule.run(2, 1, 10, JSON.stringify({ required: true }));
   insertProductRule.run(2, 2, 20, JSON.stringify({}));
-  insertProductRule.run(2, 3, 110, JSON.stringify({}));
   insertProductRule.run(2, 4, 100, JSON.stringify({}));
-  insertProductRule.run(2, 5, 1000, JSON.stringify({}));
+  insertProductRule.run(2, 5, 105, JSON.stringify({ enabled: false }));
+  insertProductRule.run(2, 3, 110, JSON.stringify({}));
+  insertProductRule.run(2, 6, 1000, JSON.stringify({}));
 }
 
 module.exports = { db, setupDatabase };

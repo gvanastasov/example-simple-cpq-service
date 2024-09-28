@@ -9,11 +9,10 @@ class PricingService {
     const pricingRules = RuleFactory.loadRules('pricing', context);
 
     const unitBasePrice = context.quote.product.basePrice;
-    const quantity = context.request.product.quantity;
 
     context.quote.price.unit = unitBasePrice;
-    context.quote.price.base = unitBasePrice * quantity;
-    context.quote.price.offering = unitBasePrice * quantity;
+    context.quote.price.base = unitBasePrice;
+    context.quote.price.offering = unitBasePrice;
     
     for (const rule of pricingRules) {
       rule.apply(context);
