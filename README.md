@@ -11,7 +11,7 @@ This repository contains a simple CPQ (Configure, Price, Quote) service. The ser
 
 ## About
 
-In a nutshell the project consists of a simple api layer, under which an `engine` takes `input`, process it and provides CPQ `output`. The processor logic consists of 3 phases, namely configure, price and validate - composition of which results in a quote. Each phase is further broken down into an ordered queue of simple logical operations, applied one after another. Data for each operation is kept inside in-memory db, seeded at runtime with some dummy values.
+In a nutshell the project consists of a simple api layer, under which an `engine` takes `input`, process it and provides CPQ `output`. The processor logic consists of 3 phases, namely configure, price and validate - composition of which results in a quote. Each phase is further broken down into an ordered queue of simple logical operations, applied one after another. Data for each operation, its arguments and its relevance to a product - is kept inside in-memory db, seeded at runtime with some dummy values.
 
 Notes:
 
